@@ -1,0 +1,38 @@
+#!/usr/bin/ruby -w 
+# CIT 383
+# Lab 1b Assignment 1
+# Frame, Allyson
+
+
+print("Enter name of the client: ")
+clientName = gets().chomp()             #remove new line
+
+print("Enter name of the Project: ")
+projectName = gets().chomp()
+
+print("Enter the total cost: ")
+totalCost = gets.to_i()
+
+print("Enter the width of the building base: ")
+width = gets.to_i()             #convert to integer
+
+
+print("Enter the length of the building base: ")
+length = gets.to_i()
+
+print("Enter the numer of floors: ")
+numFloor = gets.to_i()
+
+
+costPerSquareFoot = ((totalCost.to_f())/(width*length*numFloor))
+
+tmp = (costPerSquareFoot*100)
+tmp = tmp.to_i();
+
+costPerSquareFoot = (tmp/100.0)
+
+puts("\n")
+
+puts("The " + projectName + " project for, " + clientName + ", had a total cost of $" + totalCost.to_s() + " with a cost of $" + costPerSquareFoot.to_s() + " per square foot")
+
+puts("Width\tLength\tFloors\n------\t------\t------\n#{width}\t#{length}\t#{numFloor}")
