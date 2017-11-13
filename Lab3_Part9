@@ -1,0 +1,25 @@
+#!/usr/bin/ruby -w
+
+#Declare variables
+num = 0;
+
+print("Enter an interger value bewteen 1 to 5: ")
+num = gets().to_i();
+
+if (num >=1 && num <=5)
+	# print header
+	puts("n\tn^2\tn^3\tn^4");
+
+	# Now loop through
+	for n in 1..num do
+		for pwr in 1..4 do
+			result = n ** pwr;
+			print("#{result}\t");
+		end
+		puts();
+	end
+	
+	puts();
+else
+	puts("Only values 1 through 5 are valid.  You entered: #{num}");
+end
