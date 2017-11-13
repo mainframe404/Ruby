@@ -1,0 +1,42 @@
+#!/usr/bin/ruby -w
+
+
+
+# Declare some variables
+sum = 0
+count = 0
+oddCount = 0
+
+# Get initial value
+print("Enter an integer value (0 to quit): ");
+value = gets().to_i();
+
+# Loop until user enters 0
+while (value != 0) do
+	# Sum value
+	sum += value;
+	
+	# Count the number of values
+	count += 1;
+	
+	# Determine if value is an odd number
+	if (value % 2 != 0)
+		oddCount += 1
+	end
+	
+	print("Enter next value: ");
+	value = gets().to_i();
+end
+
+
+# Output results
+puts();
+puts("The sum of the entered values is #{sum}");
+
+if (count > 0)
+	# Calculate average
+	avg = sum / count.to_f();
+	puts(format("The average of the entered values is %0.2f" % [avg]));
+end
+
+puts("The number of entered values that were odd is #{oddCount}");
