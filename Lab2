@@ -1,0 +1,144 @@
+#!/usr/bin/ruby -w
+
+
+# Create Constants
+MINS_PER_HOUR = 60;
+HOURS_PER_DAY = 24;
+DAYS_PER_WEEK = 7;
+
+MIN_MINUTES = 0;
+MAX_MINUTES = MINS_PER_HOUR * HOURS_PER_DAY * DAYS_PER_WEEK;
+MIN_MESSAGES = 0;
+
+PRE_PAY_AMT = 25.00;
+
+
+# Create variables
+isDataValid = true;
+planTypeDesc = "";
+talkAmt = 0.0;
+textAmt = 0.0;
+
+
+
+# Step 1: Get data from user
+print("Enter the plan type (C-Commercial, R-Residential, S-Student): ");
+planType = gets().chomp();
+
+print("Enter the number of talk minutes used: ");
+talkMinutes = gets().to_i();
+
+print("Enter the number text messages sent: ");
+textMessages = gets().to_i();
+
+puts();		# just a blank line
+
+
+# Step 2: Validate Data
+if (talkMinutes < MIN_MINUTES || talkMinutes > MAX_MINUTES)
+	isDataValid = false;
+	puts("The minumum of #{MIN_MINUTES} or the maximum of #{MAX_MINUTES} of talk minutes has been exceeded.  You entered in '#{talkMinutes}'");
+end
+
+if (textMessages < MIN_MESSAGES)
+	isDataValid = false;
+	puts("The minumum of #{MIN_MESSAGES} of text messages has been exceeded.  You entered in '#{textMessages}'");
+end
+
+
+# Step 3: Calculate price based upon Plan Type
+# Note: This will also validate Plan Type
+case planType
+	# Commercial
+	when "c", "C"
+		# Set Description
+		planTypeDesc = "Commercial";
+		
+		# Talk Minutes
+		if (talkMinutes <= 300)
+			talkAmt += talkMinutes * 0.20;
+		else
+			talkAmt += (talkMinutes - 300) * 0.07;
+			talkAmt += 300 * 0.20;
+		end
+		
+		# Text Messages
+		textAmt += textMessages * 0.01;
+		
+		
+	# Residential
+	when "r", "R"
+		# Set Description
+		planTypeDesc = "Residential";
+		
+		# Talk Minutes
+		if (talkMinutes <= 120)
+			talkAmt += talkMinutes * 0.05;
+		else
+			talkAmt += (talkMinutes - 120) * 0.10;
+			talkAmt += 120 * 0.05;
+		end
+		
+		# Text Messages
+		if (textMessages <= 100)
+			textAmt += textMessages * 0.03;
+		else
+			textAmt += (textMessages - 100) * 0.05;
+			textAmt += 100 * 0.03;	
+		end
+		
+		
+	# Student
+	when "s", "S"
+		# Set Description
+		planTypeDesc = "Student";
+		
+		talkAmt += talkMinutes * 0.15;
+		
+		# Text Messages
+		if (textMessages <= 75)
+			textAmt += textMessages * 0.10;
+		elsif (textMessages > 75 && textMessages <= 250)
+				textAmt += (textMessages - 75) * 0.07;
+				textAmt += 75 * 0.10;
+		else
+			textAmt += (textMessages - 250) * 0.02;
+			textAmt += ((textMessages - 75) - (textMessages - 250)) * 0.07;
+			textAmt += 75 * 0.10;
+		end
+
+	else
+		isDataValid = false;
+		puts("Valid plan types are: C-Commercial, R-Residential, S-Student.  You entered in '#{planType}'");
+end
+	
+	
+# Step 4: Calculate Totals and Display Invoice
+# Note: Only display if we have valid data
+if (isDataValid)	
+	totalAmt = (talkAmt + textAmt).round(2);
+	balanceAmt = totalAmt - PRE_PAY_AMT;
+	balanceMsg = "";
+	
+	puts();
+	puts("Plan Type: #{planTypeDesc}");
+	puts();
+	puts("Item\t\tQuantity\tPrice");
+	puts("----\t\t--------\t-----");
+	puts("Talk\t\t#{talkMinutes}\t\t$#{format("%0.2f" % [talkAmt])}");
+	puts("Text\t\t#{textMessages}\t\t$#{format("%0.2f" % [textAmt])}");
+	puts();
+	puts("Total\t\t\t\t$#{format("%0.2f" % [totalAmt])}");
+	puts("Credit\t\t\t\t$#{format("%0.2f" % [PRE_PAY_AMT])}");
+	
+	if ((totalAmt - PRE_PAY_AMT) >= 0)
+		balanceMsg = "Amount due: $#{format("%0.2f" % [(totalAmt - PRE_PAY_AMT)])}";
+	else
+		balanceMsg = "Remaining Credit: $#{format("%0.2f" % [(PRE_PAY_AMT - totalAmt)])}";
+	end
+	
+	puts(balanceMsg);
+end
+
+
+
