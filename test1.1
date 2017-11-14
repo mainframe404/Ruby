@@ -1,0 +1,17 @@
+#!/usr/bin/ruby -w 
+
+a = rand( 1..100) 
+b = rand( 1..100) 
+tStart = Time.now 
+print("What is the result of #{a} + #{b}? ") 
+sum = gets().to_i() 
+tStop = Time.now
+if ((tStop - tStart).to_i() > 20) 
+  puts("Who cares! You took too long!") 
+else 
+  if (sum == a+b)  
+    puts("Correct!") 
+  else 
+    puts("Incorrect.  The sum of #{a} + #{b} is #{(a+b)}") 
+  end  
+  
