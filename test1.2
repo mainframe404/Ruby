@@ -1,0 +1,25 @@
+#!/usr/bin/ruby -w 
+   
+loopCnt = rand(10..20)  
+sum = 0    
+odd = 0      
+even = 0     
+i = 0
+while (i < loopCnt)  
+ 
+  value = rand(0..100)  
+
+  # Check to see if value is even
+  if (value % 2 == 0)  
+     even += 1   
+  else
+      odd += 1    
+  end
+  sum += value  
+  i += 1
+end  
+
+
+puts("Number of odd values: #{odd})  
+puts("Number of eve values: #{even})   
+puts("Sum of all values: #{sum})   
