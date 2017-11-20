@@ -1,0 +1,54 @@
+#!/usr/bin/ruby -w
+
+# Step 1: Get data from user
+print("Enter in the total set of numbers: ");
+arraySize = gets().to_i();				# Convert to integer
+
+
+# Step 2: Create Array, with a default of zero of all entries
+arrNumbers = Array.new(arraySize, 0);
+
+
+# Step 3: Populate array
+i = 0;
+while (i < arraySize) do
+	print("Enter in datum #{i+1} of #{arraySize}: ");
+	arrNumbers[i] = gets().to_i();
+	i += 1;
+end;
+
+
+# Step 4: Output Listing with running sum and grand total
+# Header Row
+puts();
+puts("Line #\tValue\tRunning Sum");
+puts("------\t-----\t-----------");
+
+# Data Row
+sum = 0;
+line = 0;
+arrNumbers.each do |x|
+	sum = sum + x;
+	line = line + 1;
+	puts("#{line}\t#{x}\t#{sum}");
+end;
+puts();
+puts("Total Number of Items: #{arrNumbers.length()}");
+puts("Grand Total: #{sum}");
+
+
+# Step 5: Calculate Average
+# Need to convert one of the operands to a float.
+avg = sum.to_f() / arrNumbers.length();
+puts();
+puts("Average: #{avg}");
+
+
+# Step 6: Calculate the Standard Deviation
+sdSum = 0
+arrNumbers.each do |x|
+	sdSum = sdSum + ((x - avg)**2);
+end;
+sdResult = Math.sqrt(sdSum.to_f() / (arrNumbers.length() - 1));
+puts();
+puts("Standard Deviation: #{sdResult}");
