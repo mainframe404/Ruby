@@ -1,0 +1,112 @@
+#!/usr/bin/ruby -w
+
+
+inFile = File.new("accounts.txt", 'r')
+
+def loadFile(file)
+	array = []
+	h = Hash.new(0)	
+	require 'csv'
+	CSV.foreach(file) do |record|
+		array << record
+	end
+	
+	for x in 1..array.size()
+		if(h.has_key?(array[x-1][0]) == true)
+			h[array[x-1][0]] += array[x-1][1].to_f()
+		else
+			h[array[x-1][0]] = array[x-1][1].to_f()
+		end
+	end
+	return h
+end
+
+def depositFunds(hash)
+	amount = 0
+	print("Please Provide an account number: ")
+	account = gets().chomp().upcase
+	if(hash.has_key?(account) == true)
+		while( amount <= 0)
+			print("Amount to deposit: ")
+			amount = gets().to_f()		
+		hash[account] += amount
+		end
+	else
+		puts("Account number #{account} does not exist. Please choose another account number")
+	end
+	return hash
+end
+
+def withdrawFunds(hash)
+	amount = 0
+	print("Please Provide an account number: ")
+	account = gets().chomp().upcase
+	if(hash.has_key?(account) == true)
+		while( amount <= 0)
+			print("Amount to withdraw: ")
+			amount = gets().to_f()		
+			hash[account] -= amount
+		end
+	else
+		puts("Account number #{account} does not exist. Please choose another account number")
+	end
+	return hash
+end
+
+
+def displayAccounts(hash)
+	puts("Account Number\t\tAccount Balance")
+	hash.each do |key, value|
+		puts("#{key}\t\t\t$#{value}")
+	end
+
+end
+
+def saveToFile(hash)
+	outFile = File.new("accounts.txt", 'w')
+	hash.each do |key, value|
+		outFile.puts("#{key},#{value}")
+	end
+	outFile.close()
+end
+
+
+loadedFile = loadFile(inFile)
+
+puts("Welcome to the CIT 383 Bank Teller")
+
+loop = true
+
+while loop == true
+
+	puts("\n\nD - Deposit Funds")
+	puts("W - Withdraw Funds")
+	puts("L - List Accounts")
+	puts("S - Save CHanges")
+	puts("X - Exit Ststem")
+
+	print("\nEnter option: ")
+	choice = gets().chomp()
+
+	case choice 
+	
+		when "D", "d"
+			loadedFile = depositFunds(loadedFile)	
+		when "W", "w"
+			loadedFile = withdrawFunds(loadedFile)
+
+		when "L", "l"
+			displayAccounts(loadedFile)
+		when "S", "s"
+			saveToFile(loadedFile)
+		when "X", "x"
+			loop = false 
+			puts("\nHave a good day!")
+		
+		else
+			print("This is not a valid option. Please try again")
+	end
+	#inFile.close()
+end
+
+inFile.close()
