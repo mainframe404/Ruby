@@ -1,0 +1,92 @@
+#!/usr/bin/ruby -w 
+
+print("Enter in the total number of athletes: ");
+arraySize = gets().to_i();
+
+# ALL THE ARRAY'S 
+arrayAthl = Array.new(arraySize, 0); 
+arraySwim = Array.new(arraySize, 0)
+arrayRun = Array.new(arraySize, 0)
+arrayBike = Array.new(arraySize, 0)
+arrayTotal = Array.new(arraySize, 0)
+
+#gotta count some how 
+i = 0
+swimHours = 0
+swimMin = 0
+runHours = 0
+runMin = 0
+bikeHours = 0
+bikeMin = 0
+totalHours = 0
+totalMin = 0
+
+swimTotal = 0 
+runTotal = 0
+bikeTotal = 0 
+timeTotal = 0 
+
+#populate the arrays with rand data 
+#header row
+puts()
+puts("Athlete #\tSwim\t\t\tRun\t\tBike\t\t\Total Time");
+puts("----------\t-----\t\t\t----\t\t----\t\t-----------");
+
+while (i < arraySize)
+	arrayAthl[i] = i
+
+	swimTime = rand(30..89)
+	arraySwim[i] = swimTime
+	arraySwim.each do |a|
+		swimHours = (arraySwim[i] / 60)
+		swimMin = (arraySwim[i] % 60)
+		swimTotal = swimTotal + swimTime
+	end
+	
+	runTime = rand(90..119);
+	arrayRun[i] = runTime
+	arrayRun.each do |b|
+		runHours = (arrayRun[i] / 60)
+		runMin = (arrayRun[i] % 60)
+		runTotal = runTotal + runTime
+	end
+	
+	bikeTime = rand(120..360);
+	arrayBike[i] = bikeTime
+	arrayBike.each do |c|
+		bikeHours = (arrayBike[i] / 60)
+		bikeMin = (arrayBike[i] % 60)
+		bikeTotal = bikeTotal + bikeTime
+	end
+
+	arrayTotal[i] = (swimTime + runTime + bikeTime)
+	arrayTotal.each do |d|
+		totalHours = (arrayTotal[i] / 60)
+		totalMin = (arrayTotal[i] % 60)
+		timeTotal = timeTotal + (swimTime + runTime + bikeTime)
+	end
+
+	puts("#{arrayAthl[i]}\t\t#{swimHours}:#{swimMin}(#{arraySwim[i]})\t\t#{runHours}:#{runMin}(#{arrayRun[i]})\t\t#{bikeHours}:#{bikeMin}(#{arrayBike[i]})\t\t#{totalHours}:#{totalMin}(#{arrayTotal[i]})");
+
+	i += 1 
+end
+
+#math for avg times
+avgSwim = swimTotal / arraySize
+avgSwimH = avgSwim / 60
+avgSwimM = avgSwim % 60
+
+avgRun = runTotal / arraySize
+avgRunH = avgRun / 60
+avgRunM = avgRun % 60
+
+avgBike = bikeTotal / arraySize
+avgBikeH = avgBike / 60
+avgBikeM = avgBike % 60 
+
+avgTotal = timeTotal / arraySize
+avgTotalH = avgTotal / 60
+avgTotalM = avgTotal % 60 
+
+puts("Avg Times: \t#{avgSwimH}:#{avgSwimM}(#{avgSwim}) \t#{avgRunH}:#{avgRunM}(#{avgRun}) \t#{avgBikeH}:#{avgBikeM}(#{avgBike}) \t#{avgTotalH}:#{avgTotalM}(#{avgTotal})" )
+
