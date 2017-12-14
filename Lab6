@@ -1,0 +1,41 @@
+#!/usr/bin/ruby -w
+
+# Get number of seconds to sleep from user
+print("Enter the number of seconds to sleep: ")
+secondsToSleep = gets().to_i();
+puts();
+
+# Validate data
+if (secondsToSleep < 1)
+	puts("Valid entry is any number greater than zero.  You entered #{secondsToSleep}");
+else
+	# Randomly generate number
+	loopCnt = rand(2..5);
+	
+	# Calc estimated total number of seconds that computer will sleep
+	estElapsedTime = loopCnt * secondsToSleep;
+	puts("Number of iterations that will occur: #{loopCnt}")
+	puts("Estimated total number of sleep seconds: #{estElapsedTime}");
+	puts();
+	
+	# Loop
+	startTime = Time.now();
+	puts("Start Time: #{startTime}")
+	for n in (1..loopCnt)
+		sleep(secondsToSleep);
+	end
+	endTime = Time.now();
+	puts("End Time: #{endTime}")
+	
+	actualElapsedTime = (endTime - startTime).to_i();
+	
+	puts();
+	puts("Actual total number of sleep seconds: #{actualElapsedTime}");
+	
+	if (estElapsedTime == actualElapsedTime)
+		puts("Success!  Sleep function works as it should");
+	else
+		puts("There is a noted difference of #{(estElapsedTime - actualElapsedTime).abs()} seconds");
+	end
+end
+
