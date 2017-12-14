@@ -1,0 +1,58 @@
+#!/usr/bin/ruby -w
+
+# CIT 383
+# Lab 5 - Solution
+# Lehan, Ryan
+
+
+# Step 1: Create Hash, with a default of zero so that any non-existing key will return a value of zero
+hshNumbers = Hash.new(0);
+hshEvenOddCount = Hash.new(0);
+hshEvenOddSum = Hash.new(0);
+
+
+# Step 2: Populate hash
+MAX_SIZE = 10000
+i = 0;
+while (i < MAX_SIZE) do
+	key = rand(20) + 1;
+	hshNumbers[key] = hshNumbers[key] + 1;
+	i += 1;
+end;
+
+
+# Step 4: Output Listing with Key/Value
+# Header Row
+puts();
+puts("Line #\tKey\tCount");
+puts("------\t---\t-----");
+
+# Data Row
+totalCount = 0;
+line = 0;
+hshNumbers.each do |key, count|
+	# determine if key is even or odd
+	eoKey = (key % 2).abs();		# use absolute function to make sure we get 0 or 1
+	hshEvenOddCount[eoKey] = hshEvenOddCount[eoKey] + 1;
+	hshEvenOddSum[eoKey] = hshEvenOddSum[eoKey] + count;
+	
+	totalCount += count;
+	line = line + 1;
+	puts("#{line}\t#{key}\t#{count}");
+end;
+
+
+# Even/Odd Header Row
+puts();
+puts("Even/Odd\tCount\tSum");
+puts("--------\t-----\t---");
+
+# Even/Odd Data row
+puts("Even\t\t#{hshEvenOddCount[0]}\t#{hshEvenOddSum[0]}");
+puts("Odd\t\t#{hshEvenOddCount[1]}\t#{hshEvenOddSum[1]}");
+
+
+# Verification Total
+puts();
+puts("Total number of occurrences: #{totalCount}");
+
