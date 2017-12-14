@@ -1,0 +1,122 @@
+#!/usr/bin/ruby -w
+
+# Define Methods
+
+# This will populate the Array based upon user input
+def populateArray(arraySize)
+	# Create Array, with a default of zero of all entries
+	arrNumbers = Array.new(arraySize, 0);
+
+	# Populate the Array
+	i = 0;
+	while (i < arraySize) do
+		print("Enter in datum #{i+1} of #{arraySize}: ");
+		arrNumbers[i] = gets().to_i();
+		i += 1;
+	end
+	
+	# return array
+	return arrNumbers;
+end
+
+
+# This will sum all the values within the array
+def calcTotal(numArray)
+	sum = 0;
+	numArray.each do |value|
+		sum += value;
+	end
+	
+	return sum;
+end
+
+
+# This will calculate the average of the values within the array
+def calcAvg(numArray)
+	result = 0;
+	
+	# Check to see if our array is empty
+	if (numArray.length() > 0)
+		result = calcTotal(numArray) / numArray.length().to_f();
+	end
+	
+	return result;
+end
+
+
+# This will calculate the Standard Deviation
+def calcStandardDeviation(numArray)
+	result = 0
+	
+	if (numArray.length() == 1)
+		result = numArray[0];
+	else
+		avg = calcAvg(numArray);
+		sum = 0
+		numArray.each do |x|
+			sum = sum + ((x - avg)**2);
+		end
+		
+		result = Math.sqrt(sum.to_f() / (numArray.length() - 1));
+	end
+	
+	return result;
+end
+
+
+# This will display the results
+def displayResults(numArray, total, avg, standardDev)
+
+	# Header Row
+	puts();
+	puts("Line #\tValue");
+	puts("------\t-----");
+	
+	# Data Row
+	sum = 0;
+	line = 0;
+	numArray.each do |x|
+		sum = sum + x;
+		line = line + 1;
+		puts("#{line}\t#{x}");
+	end;
+	
+	# Grand Total
+	puts();
+	puts("Total Number of Items: #{numArray.length()}");
+	puts("Grand Total: #{total}");
+
+	# Average
+	puts();
+	puts("Average: " + format("%0.2f" % [avg]));
+	
+	# Standard Deviation
+	puts();
+	puts("Standard Deviation: " + format("%0.4f" % [standardDev]));
+	
+end
+
+### Main Entry Point ###
+
+# Step 1: Get data from user
+print("Enter in the total set of numbers: ");
+arraySize = gets().to_i();				# Convert to integer
+
+if (arraySize < 0)
+	puts("Array size cannot be less than 0.  You entered #{arraySize}");
+else
+	# Populate Array
+	arrNum = populateArray(arraySize);
+
+	# Get Total
+	total = calcTotal(arrNum);
+
+	# Get Avg
+	average = calcAvg(arrNum);
+
+	# Get Standard Deviation
+	sd = calcStandardDeviation(arrNum);
+
+	# Display Results
+	displayResults(arrNum, total, average, sd);
+end
