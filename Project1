@@ -1,0 +1,139 @@
+#!/usr/bin/ruby -w
+
+items = 0 
+totalPrice = 0 
+grandTotal = 0 
+laborCharge = 0 
+discountAmmount = 0 
+giftCardUsed = 0 
+giftTotal = 0
+tax = 6.5
+
+loop = true
+
+while loop == true
+
+	#Start of the menu 
+
+	puts("Transaction ID\t\tTansaction Description");
+	puts("1\t\t\tAdd Item Charge");
+	puts("2\t\t\tAdd Labor Charge");
+	puts("3\t\t\tApply Discount");
+	puts("4\t\t\tApply Gift Card");
+	puts("5\t\t\tTotal");
+	puts("9\t\t\tNew Transaction");
+	puts("0\t\t\tExit Application");
+
+	print("Enter Tansaction ID: ");
+	ID = gets.chomp()
+ 
+	case ID
+
+		when "1"
+
+			puts("Enter the price: ");
+			price = gets.chomp().to_f()
+			price = price.round(2)
+
+			if (price <= 0)
+				puts("Please enter a valid price ");
+			end
+
+			totalPrice += price;
+			items = items + 1
+
+		when "2"
+			puts("Enter the labor price: ");
+			laborPrice = gets().chomp().to_f()
+			laborPrice = laborPrice.round(2)
+			laborCharge = laborCharge + 1
+
+			if (laborCharge >= 2)
+				puts("you can only add a labor charge once. ");	
+			end
+
+			if (laborPrice <= 0)
+				puts("Please enter a valid price");
+			end
+
+		when "3"
+			puts("Enter the Discount: ");
+			discount = gets()
+			discount = discount.to_i()
+
+			if (discount != 5 && discount != 10 && discount != 15);
+				puts("Please enter a valid discount ammount: ");
+			end	
+	
+			if (discountAmmount >= 2)
+				puts("you can only enter a discount once ");
+			end
+
+			disTotal = (discount/100) * totalPrice
+			discountAmmount = discountAmmount + 1
+			
+
+		when "4"
+			puts("Enter the gift card ammount: ");
+			giftCardAmmount = gets().chomp().to_f()
+			giftCardAmmount = giftCardAmmount.round(2)
+			giftCardUsed = giftCardUsed + 1
+
+			giftTotal += giftCardAmmount;
+
+			if (giftCardAmmount < 0)
+				puts("Please Enter valid ammount")
+			end
+
+		when "5"
+			totalTax = tax.to_f * (totalPrice.to_f - disTotal.to_f)
+			grandTotal = (totalPrice.to_f - disTotal.to_f + totalTax.to_f + laborPrice.to_f)
+			final = grandTotal.to_f - giftCardAmmount.to_f
+
+			puts("Description\tQuanity\t\t\tAmmount");
+			puts("-------\t\t-----------\t\t---------------------");
+
+			#data 
+			puts("Items\t\t#{items}\t\t\t$#{totalPrice}");
+			puts("Discount\t#{discount}%\t\t\t-#{disTotal}");
+			puts("Tax\t\t#{tax}\t\t\t$#{totalTax}");
+			puts("Labor\t\t#{laborCharge}\t\t\t$#{laborPrice}");
+			puts("Grand Total\t\t\t\t$#{grandTotal}");
+
+			puts("\n");
+
+			puts("Gift Card \t#{giftCardUsed}\t\t\t-#{giftTotal}");
+
+			puts("\n");
+
+			puts("Please Pay Ammunt\t\t\t$#{final}");
+
+			puts("\n");
+
+		when "9"
+
+			#theres probably a better way to clear but this works 
+			price = 0
+			totalPrice = 0
+			items = 0
+			laborCharge = 0
+			laborPrice = 0
+			discount = 0
+			discountAmmount = 0
+			disTotal = 0
+			giftCardAmmount = 0
+			giftCardUsed = 0
+			giftTotal = 0
+			totalTax = 0
+			grandTotal = 0
+			final = 0
+
+		when "0"
+			loop = false
+
+		else
+			puts("please enter valid Transaction ID: ")
+
+	end	
+end		
+
