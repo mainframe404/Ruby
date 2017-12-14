@@ -1,0 +1,112 @@
+#!/usr/bin/ruby -w
+
+# ***** Methods *****
+# Methods must be defined first
+
+# Create an Array of specified size and populate with random numbers from 1 to 1000
+def createArray(size)
+	return Array.new(size) {rand(1..1000)};
+end
+
+
+# Write the data to a file in CSV format.  File should not contain []
+def writeCSVFile(dataArray, fileName)
+	# Create file handle
+	outFile = File.new(fileName, 'w');
+	
+	# Loop through and output each piece of data
+	dataArray.each_index do |i|
+		outFile.print("#{dataArray[i]}")
+		
+		# This check is so that we do not have an extra comma at the end
+		if (i < dataArray.length() - 1)
+			outFile.print(", ");
+		end
+	end
+	outFile.puts();
+	
+	outFile.close();
+end
+
+
+# Read the data from a file in CSV format.  File should not contain []
+def readCSVFile(fileName)
+	# Create file handle
+	inFile = File.new(fileName, 'r');
+	arrString = nil;
+	
+	# Loop through file (should be a single data record)
+	inFile.each_line do |row|
+		# row is a string data type that consists of multiple fields
+		arrString = row.split(",");
+	end
+	
+	inFile.close();
+	
+	# Convert data from string to integer and return an integer array
+	return arrString.map { |x| x.to_i() }
+end
+
+# Compare the two arrays
+def compare(srcDataArray, trgtDataArray)
+	result = true;
+	
+	# first compare sizes
+	if (srcDataArray.length() != trgtDataArray.length())
+		puts("Data arrays are of different length.  Source size: #{srcDataArray.length()}.  Target size: #{trgtDataArray.length()}.");
+		result = false;
+		return result;
+	end
+	
+	# Check each element
+	maxSize = srcDataArray.length();
+	for i in 0...maxSize
+		# Check each element, exit after first case where elements don't match
+		if (srcDataArray[i] != trgtDataArray[i])
+			puts("Elements at position #{i} are different.  Source: #{srcDataArray[i]}.  Target: #{trgtDataArray[i]}.");
+			result = false;
+			return result;
+		end
+	end
+end
+
+# Get data from the user
+def getDataSize(min, max)
+	result = min - 1
+	
+	while (result < min || result > max) do		
+		print("Enter a number between #{min} and #{max}: ");
+		result = gets.chomp().to_i();
+		
+		if (result < min || result > max)
+			puts("Invalid entry.  Number must be between #{min} and #{max}.  You entered #{result}");
+			puts();
+		end
+	end
+	
+	return result;
+end
+
+
+# ***** Main Entry Point *****
+# Constants
+csvFileName = "output.csv"
+stdFileName = "output.txt"
+
+# Get number of data points from user
+arraySize = getDataSize(1, 20);
+srcArray = createArray(arraySize);
+puts();
+
+print("Source Data: #{srcArray}");
+puts();
+
+
+# Write data to CSV file, then read it back in and then compare arrays
+writeCSVFile(srcArray, csvFileName);
+trgtArray = readCSVFile(csvFileName);
+print("File Data: #{trgtArray}");
+puts();
+compare(srcArray, trgtArray);
+puts();
+
